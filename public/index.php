@@ -19,6 +19,12 @@ spl_autoload_register(function($className) {
         include("../" .$className . ".php");
     }
 });
+
+// Inclure l'autoload de composer , s'il existe
+if(file_exists("../vendor/autoload.php"))
+{
+    include('../vendor/autoload.php');
+}
 // Récupérer l'url
 $p = (!empty($_GET['p'])) ? $_GET['p'] : "/";
 

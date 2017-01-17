@@ -11,5 +11,6 @@ $routes = [
     ["/", "home", "MovieController"], // affiche la page d'accueil
     ["/movie", "showSingle","MovieController"], // affiche le détail d'un film
     ["/mentions", "mentionsLegales","DefaultController"], // afficher page mentions légales
-    ["/faq", "faq","DefaultController"] // affiche page FAQ
+    ["/faq", "faq","DefaultController"], // affiche page FAQ
+    ["/inscription", "inscription","UserController"] // affiche page connexion
 ];

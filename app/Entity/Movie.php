@@ -267,4 +267,8 @@ class Movie
     {
         $this->genres = $genres;
     }
+    public function getPosterUrl()
+    {
+        return BASE_URL . "/img/poster/" .$this->getImdbId() .".jpg";
+    }
 }

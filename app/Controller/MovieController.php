@@ -25,6 +25,11 @@ class MovieController extends BaseController
     //page détail film
     public function showSingle()
     {
-        $this->show("movie/single");
+        $movieManager = new MovieManager();
+        $id = $_GET['id'];
+        $movie = $movieManager->findId($id);
+        //$datamoviesingle = ["movie" => $movie];
+        var_dump($movieManager->findGenre());
+        $this->show("movie/single", ["movie" => $movie]);
     }
 }
