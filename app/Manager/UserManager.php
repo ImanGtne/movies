@@ -26,13 +26,13 @@ class UserManager
         $stmt->execute();
     }
 
-    public function registerUsername($username){
+    public function findOneUserame($username){
         $pdo = Database::getPdo();
         $sql = "SELECT * FROM users_incription WHERE username = :username";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(":username", $username);
         $stmt->execute();
-        $username = $stmt->fetchObject('Entity\User');
+        $username = $stmt->fetchObject('\Entity\User');
         return $username;
     }
     public function registerEmail($email){
@@ -41,7 +41,7 @@ class UserManager
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(":email", $email);
         $stmt->execute();
-        $email = $stmt->fetchObject('Entity\User');
+        $email = $stmt->fetchObject('\Entity\User');
         return $email;
     }
 }

@@ -1,3 +1,8 @@
+<?php
+
+$security = new \Grill\Model\Security\Security();
+$userconnect = $security->getUser();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +16,18 @@
 </head>
 <body>
 <header>
+    <div class="connexion">
+        <div><?php
+            if (!empty($userconnect)) { ?>
+
+                <p><?php echo 'Bonjour ' . $userconnect->getUsername() . '!'; ?></p>
+                <a href="deconnexion">Déconnexion</a>
+            <?php } else { ?>
+                <a href="inscription">Inscription</a>
+                <a href="connexion">Connexion</a>
+            <?php } ?>
+        </div>
+    </div>
     <?php include('menu.php'); ?></div>
 </header>
 <div class="container">

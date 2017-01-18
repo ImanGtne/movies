@@ -9,6 +9,7 @@
 namespace Controller;
 
 
+use Grill\Model\Security\Security;
 use Grill\Model\Validator;
 use Grill\Controller\BaseController;
 use Grill\View\View;
@@ -22,70 +23,118 @@ class UserController extends BaseController
     public function inscription()
     {
         $usermanager = new UserManager();
+        $user = new User();
+        $validator = new Validator();
 
-        if (isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["password_bis"])) {
-            if ($_POST["username"] != "" && $_POST["email"] != "" && $_POST["password"] != "" && $_POST["password_bis"] != "") {
-                $username = $_POST["username"];
-                $email = $_POST["email"];
-                $password = $_POST["password"];
-                $passwordBis = $_POST["password_bis"];
+        if (!empty($_POST)) {
+            $username = $_POST["username"];
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            $passwordBis = $_POST["password_bis"];
 
-                //VALIDATION
-                //appelle des méthodes de validation (que vous devez créer)
-                $validator = new Validator();
-                $validator->validateNotEmpty("username", $username, '');
-                $validator->validateNotEmpty("email", $email, '');
-                $validator->validateNotEmpty("password", $password, '');
-                $validator->validateEmail($email);
+// hydrate pour pouvoir mettre en value
+            $user->setUsername($username);
+            $user->setEmail($email);
 
-                $usertest = $usermanager->registerUsername($username);
-                if($usertest)
-                {
-                   $validator->addError("username", "ce nom existe déjà <br>", $username);
-                }
-                $emailtest = $usermanager->registerEmail($email);
-                if($emailtest)
-                {
-                    $validator->addError("email", "cet email existe déjà <br>", $username);
-                }
+            //VALIDATION
+            //appelle des méthodes de validation (que vous devez créer)
+            $validator->validateNotEmpty("username", $username, '');
+            $validator->validateNotEmpty("email", $email, '');
+            $validator->validateNotEmpty("password", $password, '');
+            $validator->validateEmail($email);
 
-                if ($password != $passwordBis) {
-                  $validator->addError("password_bis", "Passwords not match <br>", $passwordBis);
+            $usertest = $usermanager->findOneUserame($username);
+            if ($usertest) {
+                $validator->addError("username", "ce nom existe déjà <br>", $username);
+            }
+            $emailtest = $usermanager->registerEmail($email);
+            if ($emailtest) {
+                $validator->addError("email", "cet email existe déjà <br>", $username);
+            }
 
-                }
-                //vérifie si des erreurs sont présentes
+            if ($password != $passwordBis) {
+                $validator->addError("password_bis", "Passwords not match <br>", $passwordBis);
 
-                if ($validator->isValid()) {
-                    //données valides
+            }
+            //vérifie si des erreurs sont présentes
 
-                    $user = new User();
-                    $user->setUsername($username);
-                    $user->setEmail($email);
-                    $password_hashed = (password_hash($password, PASSWORD_DEFAULT));
-                    $user->setPassword($password_hashed);
-                    $factory = new \RandomLib\Factory;
-                    $generator = $factory->getMediumStrengthGenerator();
-                    $token = $generator->generateString(50, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')."\n";
-                    $user->setToken($token);
-                    $usermanager->registerConnexion($user);
-                    echo 'Le formulaire a bien été envoyé';
+            if ($validator->isValid()) {
+                //données valides
 
-                } else {
-                    //données non valides
-                    //récupère les messages d'erreurs
+                $password_hashed = (password_hash($password, PASSWORD_DEFAULT));
+                $user->setPassword($password_hashed);
+                $factory = new \RandomLib\Factory;
+                $generator = $factory->getMediumStrengthGenerator();
+                $token = $generator->generateString(50, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') . "\n";
+                $user->setToken($token);
+                $usermanager->registerConnexion($user);
+                header('Location: ' .BASE_URL.'/connexion');
+                die();
 
-                    $errors = $validator->getErrors();
-                    foreach($errors as $error){
-
-                        echo 'La valeur du champ ' . $error->getField() . ' contient une erreur : ' . $error->getMessage();
-
-                    }
-                }
             }
         }
+        $this->show('register/inscription', [
+            'validator' => $validator,
+            'user' => $user
+        ]);
+    }
+
+    public function connexion()
+    {
+
+        $usermanager = new UserManager();
+        $user = new User();
+        $validator = new Validator();
+
+        if (!empty($_POST)) {
+            $login = $_POST["login"];
+            $password = $_POST["password"];
 
 
+            $validator->validateNotEmpty("login", $login, '');
+            $validator->validateNotEmpty("password", $password, '');
 
-        $this->show('movie/inscription');
+            $fondUser = $usermanager->findOneUserame($login);
+            if ($fondUser) {
+                $pwdtest = password_verify($password, $fondUser->getPassword());
+                if (!$pwdtest) {
+                    $validator->addError("password", "PB PWD <br>", $pwdtest);
+                }
+            }
+            else
+            {
+                $validator->addError("login", "PB LOGIN <br>", $fondUser);
+            }
+
+            if ($validator->isValid()) {
+                //données valides
+                $security = new Security();
+                $security->connectUser($fondUser);
+                header('Location: '.BASE_URL);
+                die();
+            }
+
+
+        }
+
+        $this->show('connexion/connexion',[
+            'validator' => $validator,
+            'user' => $user
+        ]);
+    }
+    public function deconnexion()
+    {
+        $user = new User();
+        $security = new \Grill\Model\Security\Security();
+        if(!empty($_SESSION['user']))
+        {
+            $security->disconnectUser();
+            header("Location: ". BASE_URL);
+            die();
+        }
+        else
+        {
+            echo 'pas decoonecte';
+        }
     }
 }

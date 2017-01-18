@@ -25,6 +25,9 @@ if(file_exists("../vendor/autoload.php"))
 {
     include('../vendor/autoload.php');
 }
+
+session_start();
+
 // Récupérer l'url
 $p = (!empty($_GET['p'])) ? $_GET['p'] : "/";
 
