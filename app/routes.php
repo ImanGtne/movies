@@ -13,6 +13,9 @@ $routes = [
     ["/mentions", "mentionsLegales","DefaultController"], // afficher page mentions légales
     ["/faq", "faq","DefaultController"], // affiche page FAQ
     ["/inscription", "inscription","UserController"], // affiche page inscription
-    ["/connexion", "connexion","UserController"], // affiche page connexion
-    ["/deconnexion", "deconnexion","UserController"] // affiche page deconnexion
+    ["/connexion", "connexion","UserController"], // va cherhcer fonction connexion vers /connexion
+    ["/deconnexion", "deconnexion","UserController"], //   va cherhcer fonction deconnexion vers /deconnexion
+    ["/addwatchlist", "addToWatchlist","WatchlistController"], // enregistre watchlist vers /addwatchlist
+    ["/watchlist", "showWatchlist","WatchlistController"], // affiche page watchlist vers /watchlist
+    ["/removewatchlist", "deleteToWatchlist","WatchlistController"], // enregistre watchlist vers /addwatchlist
 ];

@@ -26,7 +26,7 @@ class MovieManager
         return $movies;
     }
 
-    public function findId($id)
+   /* public function findId($id)
     {
         $pdoA = Database::getPdo();
         $sql = "SELECT * FROM movies WHERE id = :id";
@@ -36,17 +36,19 @@ class MovieManager
         // retourne un seul objet sans tableau
         $movieid = $stmt->fetchObject("\Entity\Movie");
         return $movieid;
-    }
-    public function findGenre()
+    }*/
+
+    public function findElementSingle($id)
     {
         $pdo = Database::getPdo();
-        $sql = "SELECT 'title', GROUP_CONCAT('name') AS genre 
-                FROM movies,
-                INNER JOIN movies_genres ON movies.id=movies_genres.movieId 
-                INNER JOIN genres ON movies_genres.genreId=genres.id
-                GROUP BY title";
-        var_dump($sql);
+        $sql = "SELECT movies.*, GROUP_CONCAT(genres.name) AS genres 
+                FROM movies
+                LEFT JOIN movies_genres ON movies.id=movies_genres.movieId 
+                LEFT JOIN genres ON movies_genres.genreId=genres.id
+                WHERE movies.id = :id
+                GROUP BY movies.id";
         $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":id", $id);
         $stmt->execute();
         $moviegenre = $stmt->fetchObject("\Entity\Movie");
         return $moviegenre;

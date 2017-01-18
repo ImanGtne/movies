@@ -27,9 +27,7 @@ class MovieController extends BaseController
     {
         $movieManager = new MovieManager();
         $id = $_GET['id'];
-        $movie = $movieManager->findId($id);
-        //$datamoviesingle = ["movie" => $movie];
-        var_dump($movieManager->findGenre());
+        $movie = $movieManager->findElementSingle($id);
         $this->show("movie/single", ["movie" => $movie]);
     }
 }

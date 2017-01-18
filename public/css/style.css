@@ -6,6 +6,10 @@ html,body
     font-family: 'Roboto',sans-serif;
 
 }
+body
+{
+    background: #f2f2f2;
+}
 header
 {
     border-bottom:3px solid #000;
@@ -14,6 +18,42 @@ header
     width: 100%;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+.connexion{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 110px;
+}
+.connexion > div
+{
+    align-items: center;
+}
+.connexion > div,
+.connexion > div > ul
+{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+    flex-direction: column;
+}
+.connexion > div > ul > li
+{
+    display: flex;
+    list-style-type: none;
+    width: 100%;
+    margin:5px 0;
+}
+.connexion >div >ul > li > p
+{
+    text-transform: uppercase;
+    font-weight:700;
+    font-size: 18px;
+    margin: 5px 0;
 }
 header + .container
 {
@@ -88,17 +128,96 @@ h1
     width: 100%;
     flex-wrap: wrap;
 }
-.movie
+.movie-content,
+.home-movie
 {
-    display: inline-flex;
+    display: flex;
     width: 350px;
     min-height: 500px;
     margin: 20px 0;
+    flex-direction: column;
+}
+.movie
+{
+    display: flex;
+    width: 100%;
+    height:100%;
+}
+.remove
+{
+    margin: 20px 0;
+    display: flex;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border:1px solid black;
+}
+.remove > i
+{
+    align-self: center;
+    padding-left: 30px;
+    font-size: 25px;
+    margin-right:10px;
+}
+.remove:hover
+{
+    background: #fff;
+    color: #000;
+    transition: all 0.3s ease;
+    border:1px solid black;
+}
+.remove:hover > i
+{
+color: #000;
+}
+.entete
+{
+    display: flex;
+    padding: 20px 0;
+    border-bottom: 2px solid blue;
 }
 .entete > picture
 {
 
     width: 100px;
     height:100px;
+    display: flex;
+}
+.entete + .container
+{
+    flex-direction:column;
+}
+.add-watchlist
+{
+    justify-content: center;
+    align-self: center;
+    width: 240px;
+    height: 40px;
+    line-height: 40px;
+    background: #000;
+    color: #FFF;
+    text-transform: uppercase;
+    display: flex;
+    text-decoration: none;
+    margin: 30px 0;
+    border:1px solid transparent;
+    transition: all 0.3s ease;
+}
+.add-watchlist:hover
+{
+    background: #fff;
+    color: #000;
+    border:1px solid #000;
+    transition: all 0.3s ease;
+}
+.fa-trash-o
+{
+    font-size: 40px;
+    line-height: 40px;
+    color: #fff;
     display: flex;
 }

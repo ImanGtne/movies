@@ -27,8 +27,8 @@ class UserController extends BaseController
         $validator = new Validator();
 
         if (!empty($_POST)) {
-            $username = $_POST["username"];
-            $email = $_POST["email"];
+            $username = strip_tags($_POST["username"]); // strip_tags : enleve balise html pour les attaques XSS
+            $email = strip_tags($_POST["email"]);
             $password = $_POST["password"];
             $passwordBis = $_POST["password_bis"];
 

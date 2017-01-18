@@ -12,6 +12,7 @@ $userconnect = $security->getUser();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700">
     <link rel="stylesheet" href="<?= BASE_URL; ?>/css/style.css">
+    <script src="https://use.fontawesome.com/6897dda1ef.js"></script>
     <title></title>
 </head>
 <body>
@@ -19,12 +20,23 @@ $userconnect = $security->getUser();
     <div class="connexion">
         <div><?php
             if (!empty($userconnect)) { ?>
+                <ul>
+                    <li>
+                        <p><?php echo 'Bonjour ' . htmlentities($userconnect->getUsername()) . '!';
+                            //htmlentites: evite l'intepretation des balise > pour donnees utilisateur ?></p></li>
+                    <li><a href="<?= BASE_URL ?>/watchlist">Watchlist</a></li>
+                    <li><a href="deconnexion">Déconnexion</a></li>
+                </ul>
 
-                <p><?php echo 'Bonjour ' . $userconnect->getUsername() . '!'; ?></p>
-                <a href="deconnexion">Déconnexion</a>
             <?php } else { ?>
-                <a href="inscription">Inscription</a>
-                <a href="connexion">Connexion</a>
+                <ul>
+                    <li>
+                        <a href="inscription">Inscription</a>
+                    </li>
+                    <li>
+                        <a href="connexion">Connexion</a>
+                    </li>
+                </ul>
             <?php } ?>
         </div>
     </div>

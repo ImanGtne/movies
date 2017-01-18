@@ -11,12 +11,31 @@ namespace Entity;
 
 class User
 {
+    private $id;
     private $username;
     private $email;
     private $password;
     private $token;
     private $dateCreated;
     private $dateModified;
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return mixed
